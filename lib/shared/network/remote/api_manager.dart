@@ -32,4 +32,21 @@ class ApiManager{
 
     return NewsModel.fromJson(json);
   }
+
+   static Future<NewsModel> getNewsByQ(String q)async{
+     //https://newsapi.org
+     // /v2/everything
+     // ?apiKey=c28d341053524926a18a4ac0b17f6942
+     // &sources=FOCUS
+     Uri url = Uri.https("newsapi.org","/v2/everything",{
+       "apiKey":"c28d341053524926a18a4ac0b17f6942",
+       "q":q
+     });
+     http.Response response=await http.get(url);
+     var json= jsonDecode(response.body);
+
+
+     return NewsModel.fromJson(json);
+   }
+
 }

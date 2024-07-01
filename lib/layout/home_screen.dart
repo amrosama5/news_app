@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:news_app_api/screens/drawer_tab.dart';
+import 'package:news_app_api/screens/search_screen.dart';
+import 'package:news_app_api/screens/settings_screen.dart';
+import 'package:provider/provider.dart';
 
+import '../provider/my_provider.dart';
 import '../screens/category_screen.dart';
 import '../screens/data_tab.dart';
 import '../models/category_model.dart';
@@ -14,17 +18,18 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   CategoryModel? categoryModel;
-
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<MyProvider>(context);
     return Container(
-      decoration: const BoxDecoration(
-          color: Colors.white,
-          image: DecorationImage(
+      decoration:  BoxDecoration(
+          color: provider.theme == ThemeMode.light ? Colors.white : const Color(0xff1C1B20),
+          image: const DecorationImage(
             image: AssetImage(
               'assets/images/pattern.png',
             ),
-          )),
+          ),
+      ),
       child: Scaffold(
           backgroundColor: Colors.transparent,
           drawer: Drawer(
@@ -37,6 +42,12 @@ class _HomeScreenState extends State<HomeScreen> {
               color: Colors.white,
             ),
             backgroundColor: Colors.green,
+            actions: [
+              IconButton(onPressed: (){
+                showSearch(context: context, delegate: SearchScreen());
+              },icon: const Icon(Icons.search),),
+              const SizedBox(width: 10,)
+            ],
             shape: const OutlineInputBorder(
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(30),
@@ -68,6 +79,8 @@ class _HomeScreenState extends State<HomeScreen> {
       categoryModel = null;
       Navigator.pop(context);
       setState(() {});
-    } else if (val == 2) {}
+    } else if (val == 2) {
+      Navigator.pushNamed(context, SettingsScreen.routeName);
+    }
   }
 }

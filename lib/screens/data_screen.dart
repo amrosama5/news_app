@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:news_app_api/screens/widgets/news_item.dart';
 import 'package:news_app_api/shared/network/remote/api_manager.dart';
 import 'package:news_app_api/models/source_top_headlines_model.dart';
+import 'package:provider/provider.dart';
 
 import '../models/news_model.dart';
+import '../provider/my_provider.dart';
 
 class DataScreen extends StatefulWidget {
   const DataScreen({required this.sourceList, super.key});
@@ -16,6 +18,7 @@ class _DataScreenState extends State<DataScreen> {
   int indexHeadLine = 0;
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<MyProvider>(context);
     return Column(
       children: [
         DefaultTabController(
@@ -25,7 +28,7 @@ class _DataScreenState extends State<DataScreen> {
             child: TabBar(
               isScrollable: true,
               dividerColor: Colors.transparent,
-              indicatorColor: Colors.transparent,
+              indicatorColor: provider.theme == ThemeMode.light ? Colors.transparent :Colors.black12,
               onTap: (val) {
                 setState(() {
                   indexHeadLine = val;
