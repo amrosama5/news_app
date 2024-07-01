@@ -1,21 +1,23 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'models/source_top_headlines_model.dart';
+import '../../../models/news_model.dart';
+import '../../../models/source_top_headlines_model.dart';
 class ApiManager{
 
-   static Future<SourceTopHeadlinesModel?> getSourcesTopHeadLines()async{
+   static Future<SourceModel?> getSourcesTopHeadLines({String? category})async{
  //https://newsapi.org/v2/top-headlines/sources?apiKey=c28d341053524926a18a4ac0b17f6942
     Uri url = Uri.https("newsapi.org","/v2/top-headlines/sources",{
-    "apiKey":"c28d341053524926a18a4ac0b17f6942"
+    "apiKey":"c28d341053524926a18a4ac0b17f6942",
+      "category":category
     });
     http.Response response=await http.get(url);
     var json= jsonDecode(response.body);
 
-    return SourceTopHeadlinesModel.fromJson(json);
+    return SourceModel.fromJson(json);
   }
 
 
-  getNewsBySources(String search)async{
+  static Future<NewsModel> getNewsBySources(String search)async{
      //https://newsapi.org
     // /v2/everything
     // ?apiKey=c28d341053524926a18a4ac0b17f6942
@@ -28,6 +30,6 @@ class ApiManager{
     var json= jsonDecode(response.body);
 
 
-    return SourceTopHeadlinesModel.fromJson(json);
+    return NewsModel.fromJson(json);
   }
 }

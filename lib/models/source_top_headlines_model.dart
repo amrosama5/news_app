@@ -1,9 +1,9 @@
-class SourceTopHeadlinesModel {
-  SourceTopHeadlinesModel({
+class SourceModel {
+  SourceModel({
     this.status,
     this.sources,});
 
-  SourceTopHeadlinesModel.fromJson(dynamic json) {
+  SourceModel.fromJson(dynamic json) {
     status = json['status'];
     if (json['sources'] != null) {
       sources = [];

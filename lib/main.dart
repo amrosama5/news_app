@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
-import 'home.dart';
+import 'layout/home_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp( const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -12,12 +11,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
       ),
-      home: const Home(),
+      initialRoute: HomeScreen.routeName,
+      routes: {
+        HomeScreen.routeName:(context) => const HomeScreen()
+      },
     );
   }
 }
