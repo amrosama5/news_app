@@ -1,10 +1,10 @@
-class NewsModel {
-  NewsModel({
+class NewsResponse {
+  NewsResponse({
       this.status, 
       this.totalResults, 
       this.articles,});
 
-  NewsModel.fromJson(dynamic json) {
+  NewsResponse.fromJson(dynamic json) {
     status = json['status'];
     totalResults = json['totalResults'];
     if (json['articles'] != null) {
@@ -17,6 +17,16 @@ class NewsModel {
   String? status;
   int? totalResults;
   List<Articles>? articles;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['status'] = status;
+    map['totalResults'] = totalResults;
+    if (articles != null) {
+      map['articles'] = articles?.map((v) => v.toJson()).toList();
+    }
+    return map;
+  }
 
 }
 
@@ -42,13 +52,28 @@ class Articles {
     content = json['content'];
   }
   Source? source;
-  String? author;
+  dynamic author;
   String? title;
   String? description;
   String? url;
   String? urlToImage;
   String? publishedAt;
   String? content;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    if (source != null) {
+      map['source'] = source?.toJson();
+    }
+    map['author'] = author;
+    map['title'] = title;
+    map['description'] = description;
+    map['url'] = url;
+    map['urlToImage'] = urlToImage;
+    map['publishedAt'] = publishedAt;
+    map['content'] = content;
+    return map;
+  }
 
 }
 
@@ -64,5 +89,11 @@ class Source {
   String? id;
   String? name;
 
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['id'] = id;
+    map['name'] = name;
+    return map;
+  }
 
 }
