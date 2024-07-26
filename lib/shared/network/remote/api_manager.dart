@@ -1,52 +1,27 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../../../models/news_model.dart';
-import '../../../models/source_top_headlines_model.dart';
-class ApiManager{
+import '../../../models/NewsResponse.dart';
+import '../../../models/source_reposne.dart';
+import '../../components/constants.dart';
 
-   static Future<SourceModel?> getSourcesTopHeadLines({String? category})async{
- //https://newsapi.org/v2/top-headlines/sources?apiKey=c28d341053524926a18a4ac0b17f6942
-    Uri url = Uri.https("newsapi.org","/v2/top-headlines/sources",{
-    "apiKey":"c28d341053524926a18a4ac0b17f6942",
-      "category":category
-    });
-    http.Response response=await http.get(url);
-    var json= jsonDecode(response.body);
+class ApiManager {
+// https://newsapi.org/v2/top-headlines/sources?apiKey=
+  static Future<SourceResponse> getSources(String category) async {
+    Uri url = Uri.https(Constants.BASE_URL, "/v2/top-headlines/sources",
+        {"apiKey": "dc3d106e730c4256b8c275d9da58d090","category": category});
+    http.Response resposne = await http.get(url);
+    Map<String, dynamic> json = jsonDecode(resposne.body);
 
-    return SourceModel.fromJson(json);
+    return SourceResponse.fromJson(json);
   }
 
+  static Future<NewsResponse> getNewsData(String sourceId) async {
+    Uri url =
+        Uri.https(Constants.BASE_URL, "/v2/everything", {"sources": sourceId});
+    var resposne = await http
+        .get(url, headers: {"x-api-key": "dc3d106e730c4256b8c275d9da58d090"});
 
-  static Future<NewsModel> getNewsBySources(String search)async{
-     //https://newsapi.org
-    // /v2/everything
-    // ?apiKey=c28d341053524926a18a4ac0b17f6942
-    // &sources=FOCUS
-    Uri url = Uri.https("newsapi.org","/v2/everything",{
-      "apiKey":"c28d341053524926a18a4ac0b17f6942",
-      "sources":search
-    });
-    http.Response response=await http.get(url);
-    var json= jsonDecode(response.body);
-
-
-    return NewsModel.fromJson(json);
+    var json = jsonDecode(resposne.body);
+    return NewsResponse.fromJson(json);
   }
-
-   static Future<NewsModel> getNewsByQ(String q)async{
-     //https://newsapi.org
-     // /v2/everything
-     // ?apiKey=c28d341053524926a18a4ac0b17f6942
-     // &sources=FOCUS
-     Uri url = Uri.https("newsapi.org","/v2/everything",{
-       "apiKey":"c28d341053524926a18a4ac0b17f6942",
-       "q":q
-     });
-     http.Response response=await http.get(url);
-     var json= jsonDecode(response.body);
-
-
-     return NewsModel.fromJson(json);
-   }
-
 }
